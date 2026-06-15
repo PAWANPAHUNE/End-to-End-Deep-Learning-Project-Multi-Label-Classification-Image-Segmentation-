@@ -1,7 +1,5 @@
-
 import os
 import sys
-
 
 project_root = os.getcwd()
 if project_root not in sys.path:
@@ -9,11 +7,12 @@ if project_root not in sys.path:
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
-GLOBAL_MODEL_PATH = os.path.join("model", "model.h5")
-loaded_network = load_model(GLOBAL_MODEL_PATH)
-
+import glob
+import numpy as np
+import gradio as gr
 import tf_keras as keras
 from tf_keras.layers import InputLayer
+from tf_keras.preprocessing import image
 
 class FixedInputLayer(InputLayer):
     def __init__(self, **kwargs):
@@ -23,20 +22,12 @@ class FixedInputLayer(InputLayer):
             kwargs['shape'] = (224, 224, 3)
         super().__init__(**kwargs)
 
+GLOBAL_MODEL_PATH = os.path.join("model", "model.h5")
+
 loaded_network = keras.models.load_model(
     GLOBAL_MODEL_PATH,
     custom_objects={'InputLayer': FixedInputLayer}
 )
-
-import glob
-import gradio as gr
-import numpy as np
-
-
-
-from tf_keras.models import load_model
-from tensorflow.keras.preprocessing import image
-
 
 
 def predict_image(img_path):
