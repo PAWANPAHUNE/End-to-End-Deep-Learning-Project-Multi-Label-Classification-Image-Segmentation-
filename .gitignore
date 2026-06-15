@@ -175,3 +175,4 @@ mlruns/
 artifacts/
 mlruns/
 .dvc/
+artifacts
