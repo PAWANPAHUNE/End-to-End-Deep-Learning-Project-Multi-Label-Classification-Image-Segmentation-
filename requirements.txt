@@ -1,4 +1,3 @@
-tensorflow
 pandas 
 gdown
 dvc
@@ -17,4 +16,5 @@ scipy
 Flask
 Flask-Cors
 gradio
+tensorflow==2.15.0
 
