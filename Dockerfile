@@ -6,16 +6,12 @@ RUN useradd -m -u 1000 user
 USER user
 
 ENV HOME=/home/user \
-    PATH=/home/user/.local/bin:$PATH \
-    TF_USE_LEGACY_KERAS=1 \
-    KERAS_BACKEND=tensorflow
+    PATH=/home/user/.local/bin:$PATH
 
 WORKDIR $HOME/app
 
 COPY --chown=user requirements.txt .
-RUN pip install --no-cache-dir \
-    tensorflow==2.16.2 \
-    tf-keras==2.16.0 \
+RUN pip install --no-cache-dir tensorflow==2.16.2 tf-keras==2.16.0 \
     && pip install --no-cache-dir -r requirements.txt
 
 COPY --chown=user . $HOME/app
