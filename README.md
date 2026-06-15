@@ -1,14 +1,11 @@
-## End to End Deep Learning Project 
+---
+title: CT Scan Deep Learning Predictor
+emoji: 🫁
+colorFrom: yellow
+colorTo: red
+sdk: docker
+pinned: false
+---
 
-# Workflows 
-
-Update config.yaml
-Update secrets.yaml [Optional]
-Update params.yaml
-Update the entity
-Update the configuration manager in src config
-Update the components
-Update the pipeline
-Update the main.py
-Update the dvc.yaml
-
+# End To End Deep Learning Project
+Developed by Pawan Pahune. This project classifies chest CT scans into four distinct categories using a deep learning pipeline.
