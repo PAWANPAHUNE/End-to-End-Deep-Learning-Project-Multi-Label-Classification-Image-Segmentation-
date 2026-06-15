@@ -1,0 +1,10 @@
+MODEL_NAME: DenseNet121
+AUGMENTATION: True
+IMAGE_SIZE: [224, 224, 3] # Native resolution for DenseNet121
+BATCH_SIZE: 16
+INCLUDE_TOP: False
+EPOCHS: 100
+CLASSES: 4                 # Adenocarcinoma, Large Cell, Squamous Cell, Normal
+WEIGHTS: imagenet          # Change to a local path like 'path/to/radimagenet_weights.h5' if using medical weights
+LEARNING_RATE: 0.0001
+UNFREEZE_DEEP_BLOCKS: True # Tells your python script to unfreeze the final convolutional layers for medical adaptation

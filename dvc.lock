@@ -1,0 +1,113 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/End_to_End_DL_Project/pipeline/data_ingestion_pipeline.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: e5dd3dd13a6dbd5367b58298b9caaa51
+      size: 565
+    - path: src/End_to_End_DL_Project/pipeline/data_ingestion_pipeline.py
+      hash: md5
+      md5: 5965cf719e1b312509c4e52848ddd364
+      size: 902
+    outs:
+    - path: artifacts/data_ingestion/Data
+      hash: md5
+      md5: 3ddc2c0e262e947578d73eeec3119af6.dir
+      size: 124956798
+      nfiles: 1000
+  prepare_base_model:
+    cmd: python src/End_to_End_DL_Project/pipeline/prepare_basemodel_pipeline.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: e5dd3dd13a6dbd5367b58298b9caaa51
+      size: 565
+    - path: src/End_to_End_DL_Project/pipeline/prepare_basemodel_pipeline.py
+      hash: md5
+      md5: dde4131ee2b0755d2040c529951f0b1a
+      size: 989
+    params:
+      params.yaml:
+        CLASSES: 4
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+        INCLUDE_TOP: false
+        LEARNING_RATE: 0.0001
+        WEIGHTS: imagenet
+    outs:
+    - path: artifacts/prepare_base_model
+      hash: md5
+      md5: 61e1467910caeeae9b57b41761988e32.dir
+      size: 58961008
+      nfiles: 2
+  training:
+    cmd: python src/End_to_End_DL_Project/pipeline/model_training_pipeline.py
+    deps:
+    - path: artifacts/data_ingestion/Data
+      hash: md5
+      md5: 3ddc2c0e262e947578d73eeec3119af6.dir
+      size: 124956798
+      nfiles: 1000
+    - path: artifacts/prepare_base_model
+      hash: md5
+      md5: 61e1467910caeeae9b57b41761988e32.dir
+      size: 58961008
+      nfiles: 2
+    - path: config/config.yaml
+      hash: md5
+      md5: e5dd3dd13a6dbd5367b58298b9caaa51
+      size: 565
+    - path: src/End_to_End_DL_Project/pipeline/model_training_pipeline.py
+      hash: md5
+      md5: b295eeca6f881d7f5eadd9fcef9b1746
+      size: 916
+    params:
+      params.yaml:
+        AUGMENTATION: true
+        BATCH_SIZE: 16
+        EPOCHS: 100
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+    outs:
+    - path: artifacts/training/model.h5
+      hash: md5
+      md5: 92dfcc3721686d34de253efb755a1cd6
+      size: 46892200
+  evaluation:
+    cmd: python src/End_to_End_DL_Project/pipeline/model_evaluation_pipeline.py
+    deps:
+    - path: artifacts/data_ingestion/Data
+      hash: md5
+      md5: 3ddc2c0e262e947578d73eeec3119af6.dir
+      size: 124956798
+      nfiles: 1000
+    - path: artifacts/training/model.h5
+      hash: md5
+      md5: 92dfcc3721686d34de253efb755a1cd6
+      size: 46892200
+    - path: config/config.yaml
+      hash: md5
+      md5: e5dd3dd13a6dbd5367b58298b9caaa51
+      size: 565
+    - path: src/End_to_End_DL_Project/pipeline/model_evaluation_pipeline.py
+      hash: md5
+      md5: 489b91670b6e706258127e94531ee747
+      size: 893
+    params:
+      params.yaml:
+        BATCH_SIZE: 16
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+    outs:
+    - path: scores.json
+      hash: md5
+      md5: 0da67a6f852ccd99c116a43b7cdcd325
+      size: 177
