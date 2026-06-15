@@ -1,9 +1,9 @@
-pandas 
+pandas
 gdown
 dvc
 mlflow
 notebook
-numpy
+numpy>=1.26.0,<2.0.0
 matplotlib
 seaborn
 python-box
@@ -16,5 +16,3 @@ scipy
 Flask
 Flask-Cors
 gradio
-tensorflow==2.15.0
-

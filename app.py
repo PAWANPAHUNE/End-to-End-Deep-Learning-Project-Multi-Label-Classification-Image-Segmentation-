@@ -3,7 +3,7 @@ import sys
 import glob
 import gradio as gr
 import numpy as np
-from tensorflow.keras.models import load_model
+from tf_keras.models import load_model
 from tensorflow.keras.preprocessing import image
 
 project_root = os.getcwd()
