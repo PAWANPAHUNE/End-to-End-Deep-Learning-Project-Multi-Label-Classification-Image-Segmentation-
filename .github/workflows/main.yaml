@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - 'README.md'
   workflow_dispatch:
 
 jobs:
@@ -16,8 +14,8 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1 # Only pulls the exact current state of the repo, ignoring history
-          lfs: true      # Ensures your model.h5 is pulled cleanly
+          fetch-depth: 1
+          lfs: true
 
       - name: Sync to Hugging Face Space
         uses: huggingface/hub-sync@v0.1.0
