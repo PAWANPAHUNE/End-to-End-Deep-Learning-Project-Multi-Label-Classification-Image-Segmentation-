@@ -6,41 +6,23 @@ on:
       - main
     paths-ignore:
       - 'README.md'
-  workflow_dispatch: # Allows you to trigger the workflow manually
+  workflow_dispatch:
 
 jobs:
-  integration:
-    name: Continuous Integration
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Lint code
-        run: echo "Linting repository..."
-
-      - name: Run unit tests
-        run: echo "Running unit tests..."
-
-  continuous-deployment:
+  deploy:
     name: Deploy to Hugging Face
-    needs: integration
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Required to push the full git history
-          lfs: true      # Ensures your large model.h5 files are pulled correctly
+          fetch-depth: 1 # Only pulls the exact current state of the repo, ignoring history
+          lfs: true      # Ensures your model.h5 is pulled cleanly
 
-      - name: Push to Hugging Face Hub
-        env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: |
-          # Replace YOUR_HF_USERNAME and YOUR_SPACE_NAME with your actual details
-          git remote add space https://huggingface.co/spaces/Pawan2605/End-to-End_Dee_Learning_Project_Demo
-          
-          # Force push the local main branch to the Hugging Face remote main branch
-          git push --force https://Pawan2605:$HF_TOKEN@huggingface.co/spaces/Pawan2605/End-to-End_Dee_Learning_Project_Demo
-
-          
+      - name: Sync to Hugging Face Space
+        uses: huggingface/hub-sync@v0.1.0
+        with:
+          github_repo_id: ${{ github.repository }}
+          huggingface_repo_id: Pawan2605/End-to-End_Dee_Learning_Project_Demo
+          hf_token: ${{ secrets.HF_TOKEN }}
+          repo_type: space
